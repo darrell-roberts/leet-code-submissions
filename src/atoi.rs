@@ -22,7 +22,7 @@ pub fn my_atoi(s: String) -> i32 {
       }
       c == '-' || c == '+'
     })
-    .take_while(|c| c.is_digit(10))
+    .take_while(|c| c.is_ascii_digit())
     .collect::<String>();
 
   if negative {

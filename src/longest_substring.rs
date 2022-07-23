@@ -1,4 +1,4 @@
-use std::{cmp::max, collections::HashMap, iter::zip};
+use std::{cmp::max, collections::HashMap};
 
 /// Uses the "sliding window" algorithm to search within a contiguous structure.
 pub fn length_of_longest_substring(s: String) -> i32 {

@@ -22,10 +22,12 @@ pub use excel_sheet::convert_to_title;
 pub use fibonacci::fib;
 /// https://leetcode.com/problems/longest-substring-without-repeating-characters/
 pub use longest_substring::length_of_longest_substring;
+pub use matrix::search_matrix;
 /// https://leetcode.com/problems/median-of-two-sorted-arrays/
 pub use median_arrays::find_median_sorted_arrays;
 /// https://leetcode.com/problems/merge-k-sorted-lists/
 pub use merge_lists::merge_k_lists;
+/// https://leetcode.com/problems/merge-two-sorted-lists/
 pub use merge_lists::merge_two_lists;
 /// https://leetcode.com/problems/first-missing-positive/
 pub use missing_positive::first_missing_positive;
@@ -39,8 +41,14 @@ pub use parentheses::is_valid;
 pub use parentheses::longest_valid_parentheses;
 /// https://leetcode.com/problems/permutations
 pub use permutations::permute;
+/// https://leetcode.com/problems/permutations-ii
+pub use permutations::permute_unique;
 /// https://leetcode.com/problems/letter-combinations-of-a-phone-number/
 pub use phone_combo::letter_combinations;
+/// https://leetcode.com/problems/add-binary
+pub use plus_one::add_binary;
+/// https://leetcode.com/problems/plus-one
+pub use plus_one::plus_one;
 /// https://leetcode.com/problems/reverse-integer
 pub use reverse_integer::reverse;
 /// https://leetcode.com/problems/integer-to-roman/
@@ -49,6 +57,10 @@ pub use roman_numeral::int_to_roman;
 pub use rotate_image::rotate;
 /// https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 pub use sorted_array::search_range;
+/// https://leetcode.com/problems/remove-nth-node-from-end-of-list
+pub use swap_nodes::remove_nth_from_end;
+/// https://leetcode.com/problems/swap-nodes-in-pairs
+pub use swap_nodes::swap_pairs;
 /// https://leetcode.com/problems/3sum
 pub use three_sum::three_sum;
 /// https://leetcode.com/problems/two-sum/
@@ -57,6 +69,8 @@ pub use two_sum::two_sum;
 pub use water_container::max_area;
 /// https://leetcode.com/problems/zigzag-conversion
 pub use zigzag_conversion::convert;
+/// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+pub use remove_dupes::delete_duplicates;
 
 mod add_two_numbers;
 mod anagrams;
@@ -70,6 +84,7 @@ mod course_schedule_dag;
 mod excel_sheet;
 mod fibonacci;
 mod longest_substring;
+mod matrix;
 mod median_arrays;
 mod merge_lists;
 mod missing_positive;
@@ -77,6 +92,7 @@ mod palindrome;
 mod parentheses;
 mod permutations;
 mod phone_combo;
+mod plus_one;
 mod reverse_integer;
 mod roman_numeral;
 mod rotate_image;
@@ -86,6 +102,7 @@ mod three_sum;
 mod two_sum;
 mod water_container;
 mod zigzag_conversion;
+mod remove_dupes;
 
 // Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -120,6 +137,35 @@ impl ListNode {
           break;
         }
       }
+    }
+  }
+
+  fn push_ordered(&mut self, mut node: Box<ListNode>) {
+    if self.val > node.val {
+      let mut old_head = Self::new(self.val);
+      old_head.next = self.next.take();
+      node.next = Some(Box::new(old_head));
+      *self = *node;
+    } else {
+      let mut next_node = &mut self.next;
+      while let Some(n) = next_node {
+        if n.val < node.val {
+          next_node = &mut n.next;
+        } else {
+          let child = n.next.take();
+          if node.val > n.val {
+            node.next = child;
+            n.next = Some(node);
+          } else {
+            let mut new_node = Self::new(n.val);
+            new_node.next = child;
+            node.next = Some(Box::new(new_node));
+            *n = node;
+          }
+          return;
+        }
+      }
+      *next_node = Some(node);
     }
   }
 }
@@ -183,6 +229,19 @@ mod test {
 
     if let Some(mut n) = test_list_node {
       n.push(test_add);
+      dbg!(&n);
+    }
+  }
+
+  #[test]
+  fn test_push_ordered() {
+    let test_list_node = from_array(&[2, 3, 4, 5]);
+    let test_add_1 = Box::new(ListNode::new(3));
+    let test_add_2 = Box::new(ListNode::new(1));
+
+    if let Some(mut n) = test_list_node {
+      n.push_ordered(test_add_1);
+      n.push_ordered(test_add_2);
       dbg!(&n);
     }
   }

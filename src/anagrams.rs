@@ -22,16 +22,18 @@ mod test {
 
   #[test]
   fn test_group() {
-    assert_eq!(
-      vec![vec!["bat"], vec!["nat", "tan"], vec!["ate", "eat", "tea"]],
-      group_anagrams(vec![
-        "eat".into(),
-        "tea".into(),
-        "tan".into(),
-        "ate".into(),
-        "nat".into(),
-        "bat".into(),
-      ])
-    );
+    let mut expected =
+      vec![vec!["bat"], vec!["tan", "nat"], vec!["eat", "tea", "ate"]];
+    expected.sort();
+    let mut result = group_anagrams(vec![
+      "eat".into(),
+      "tea".into(),
+      "tan".into(),
+      "ate".into(),
+      "nat".into(),
+      "bat".into(),
+    ]);
+    result.sort();
+    assert_eq!(expected, result);
   }
 }
