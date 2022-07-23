@@ -12,7 +12,7 @@ fn find_multiples(n: i32, target: i32) -> HashSet<MultiplesCandidate> {
   let mut multiple_candidates = HashSet::new();
 
   for multiple in 1.. {
-    let multiple_value = n * (multiple as i32);
+    let multiple_value = n * multiple;
 
     match multiple_value.cmp(&target) {
       Ordering::Greater => {
@@ -21,7 +21,7 @@ fn find_multiples(n: i32, target: i32) -> HashSet<MultiplesCandidate> {
       Ordering::Equal => {
         multiple_candidates.insert(MultiplesCandidate {
           val: n,
-          multiple,
+          multiple: multiple.try_into().unwrap(),
           multiple_value,
         });
         break;
@@ -29,7 +29,7 @@ fn find_multiples(n: i32, target: i32) -> HashSet<MultiplesCandidate> {
       Ordering::Less => {
         multiple_candidates.insert(MultiplesCandidate {
           val: n,
-          multiple,
+          multiple: multiple.try_into().unwrap(),
           multiple_value,
         });
       }
@@ -152,31 +152,35 @@ mod test {
     assert_eq!(vec![vec![2, 2, 2, 2], vec![2, 3, 3], vec![3, 5]], result);
     assert_eq!(vec![] as Vec<Vec<i32>>, combination_sum(vec![2], 1));
 
-    let expected = vec![
+    let mut expected = vec![
+      vec![1, 1, 2, 5],
+      vec![1, 1, 1, 1, 2, 3],
+      vec![1, 2, 3, 3],
+      vec![1, 2, 2, 2, 2],
       vec![1, 1, 1, 1, 1, 1, 1, 1, 1],
+      vec![1, 1, 1, 1, 1, 2, 2],
+      vec![1, 1, 1, 6],
+      vec![1, 2, 6],
+      vec![2, 2, 5],
+      vec![3, 6],
+      vec![3, 3, 3],
+      vec![1, 1, 1, 1, 5],
+      vec![1, 1, 1, 3, 3],
+      vec![1, 1, 1, 2, 2, 2],
+      vec![2, 2, 2, 3],
       vec![1, 1, 1, 1, 1, 1, 1, 2],
       vec![1, 1, 1, 1, 1, 1, 3],
-      vec![1, 1, 1, 1, 1, 2, 2],
-      vec![1, 1, 1, 1, 2, 3],
-      vec![1, 1, 1, 1, 5],
-      vec![1, 1, 1, 2, 2, 2],
-      vec![1, 1, 1, 3, 3],
-      vec![1, 1, 1, 6],
       vec![1, 1, 2, 2, 3],
-      vec![1, 1, 2, 5],
       vec![1, 1, 7],
-      vec![1, 2, 2, 2, 2],
-      vec![1, 2, 3, 3],
-      vec![1, 2, 6],
       vec![1, 3, 5],
-      vec![2, 2, 2, 3],
-      vec![2, 2, 5],
       vec![2, 7],
-      vec![3, 3, 3],
-      vec![3, 6],
     ];
 
-    assert_eq!(expected, combination_sum(vec![2, 7, 6, 3, 5, 1], 9))
+    expected.sort();
+    let mut result = combination_sum(vec![2, 7, 6, 3, 5, 1], 9);
+    result.sort();
+
+    assert_eq!(expected, result);
   }
 
   // #[test]

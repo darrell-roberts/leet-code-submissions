@@ -1,20 +1,15 @@
 use std::mem::replace;
 
-use crate::{from_array, to_array, ListNode};
+use crate::ListNode;
 
 pub fn merge_k_lists(
   lists: Vec<Option<Box<ListNode>>>,
 ) -> Option<Box<ListNode>> {
-  let mut new_list = vec![];
-  for l in lists.into_iter().flatten() {
-    new_list.push(l.val);
-    for val in to_array(l.next) {
-      new_list.push(val);
-    }
+  let mut dummy_head = ListNode::new(i32::MIN);
+  for l in lists.into_iter().flatten().flat_map(|l| l.into_iter()) {
+    dummy_head.push_ordered(l);
   }
-
-  new_list.sort_unstable();
-  from_array(&new_list)
+  dummy_head.next
 }
 
 pub fn merge_two_lists(
@@ -65,7 +60,8 @@ pub fn merge_two_lists(
 
 #[cfg(test)]
 mod test {
-  use crate::merge_lists::{from_array, merge_k_lists, merge_two_lists};
+  use crate::from_array;
+  use crate::merge_lists::{merge_k_lists, merge_two_lists};
 
   #[test]
   fn test_merge() {
@@ -74,6 +70,13 @@ mod test {
       from_array(&[1, 3, 4]),
       from_array(&[2, 6]),
     ]);
+    let expected = from_array(&[1, 1, 2, 3, 4, 4, 5, 6]);
+    assert_eq!(result, expected);
+
+    let result =
+      merge_k_lists(vec![from_array(&[2]), from_array(&[]), from_array(&[-1])]);
+    let expected = from_array(&[-1, 2]);
+    assert_eq!(result, expected);
   }
 
   #[test]
