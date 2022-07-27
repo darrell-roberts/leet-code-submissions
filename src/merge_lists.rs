@@ -58,10 +58,25 @@ pub fn merge_two_lists(
   }
 }
 
+#[allow(unused)]
+pub fn merge(nums1: &mut Vec<i32>, _m: i32, nums2: &mut Vec<i32>, _n: i32) {
+  let mut nums2_iter = nums2.iter().cloned();
+  for n in nums1.iter_mut() {
+    if *n == 0 {
+      if let Some(n2) = nums2_iter.next() {
+        *n = n2;
+      }
+    }
+  }
+  nums1.sort_unstable();
+}
+
 #[cfg(test)]
 mod test {
   use crate::from_array;
   use crate::merge_lists::{merge_k_lists, merge_two_lists};
+
+  use super::merge;
 
   #[test]
   fn test_merge() {
@@ -107,5 +122,29 @@ mod test {
     for l in test_list.unwrap().into_iter() {
       dbg!(&l);
     }
+  }
+
+  #[test]
+  fn test_merge_sorted_array() {
+    let mut nums1 = vec![1, 2, 3, 0, 0, 0];
+    let mut nums2 = vec![2, 5, 6];
+
+    merge(&mut nums1, 3, &mut nums2, 3);
+
+    assert_eq!(vec![1, 2, 2, 3, 5, 6], nums1);
+
+    let mut nums1 = vec![1];
+    let mut nums2 = vec![];
+
+    merge(&mut nums1, 1, &mut nums2, 0);
+
+    assert_eq!(vec![1], nums1);
+
+    let mut nums1 = vec![1];
+    let mut nums2 = vec![];
+
+    merge(&mut nums1, 1, &mut nums2, 0);
+
+    assert_eq!(vec![1], nums1);
   }
 }

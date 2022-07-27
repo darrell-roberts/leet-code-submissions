@@ -13,7 +13,7 @@ mod test {
 
   #[test]
   fn test_matrix() {
-    let result = search_matrix(
+    let _result = search_matrix(
       vec![
         vec![1, 4, 7, 11, 15],
         vec![2, 5, 8, 12, 19],

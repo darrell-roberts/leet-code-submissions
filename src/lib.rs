@@ -49,6 +49,8 @@ pub use phone_combo::letter_combinations;
 pub use plus_one::add_binary;
 /// https://leetcode.com/problems/plus-one
 pub use plus_one::plus_one;
+/// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+pub use remove_dupes::delete_duplicates;
 /// https://leetcode.com/problems/reverse-integer
 pub use reverse_integer::reverse;
 /// https://leetcode.com/problems/integer-to-roman/
@@ -69,8 +71,6 @@ pub use two_sum::two_sum;
 pub use water_container::max_area;
 /// https://leetcode.com/problems/zigzag-conversion
 pub use zigzag_conversion::convert;
-/// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
-pub use remove_dupes::delete_duplicates;
 
 mod add_two_numbers;
 mod anagrams;
@@ -93,6 +93,7 @@ mod parentheses;
 mod permutations;
 mod phone_combo;
 mod plus_one;
+mod remove_dupes;
 mod reverse_integer;
 mod roman_numeral;
 mod rotate_image;
@@ -102,7 +103,6 @@ mod three_sum;
 mod two_sum;
 mod water_container;
 mod zigzag_conversion;
-mod remove_dupes;
 
 // Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -174,6 +174,11 @@ pub struct IntoIter {
   inner: Option<Box<ListNode>>,
 }
 
+pub struct IterMut<'a> {
+  inner: Option<&'a mut Box<ListNode>>,
+  // phantom: PhantomData<&'a Box<ListNode>>,
+}
+
 impl Iterator for IntoIter {
   type Item = Box<ListNode>;
   fn next(&mut self) -> Option<Self::Item> {
@@ -183,6 +188,16 @@ impl Iterator for IntoIter {
     })
   }
 }
+
+// impl<'a> Iterator for IterMut<'a> {
+//   type Item = &'a mut Box<ListNode>;
+
+//   fn next(&mut self) -> Option<Self::Item> {
+//     let current = self.inner.take();
+//     self.inner = current.and_then(|n| n.next.as_mut());
+//     current
+//   }
+// }
 
 impl IntoIterator for ListNode {
   type Item = Box<ListNode>;
@@ -208,6 +223,7 @@ fn from_array(l: &[i32]) -> Option<Box<ListNode>> {
   list_node
 }
 
+#[allow(unused)]
 fn to_array(l: Option<Box<ListNode>>) -> Vec<i32> {
   let mut next = l;
   let mut digits = vec![];

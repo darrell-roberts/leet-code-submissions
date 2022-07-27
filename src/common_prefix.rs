@@ -26,6 +26,7 @@ pub fn longest_common_prefix(strs: Vec<String>) -> String {
   unreachable!()
 }
 
+#[allow(unused)]
 pub fn longest_common_prefix_2(strs: Vec<String>) -> String {
   let mut freq_map: BTreeMap<usize, (char, usize)> = BTreeMap::new();
 

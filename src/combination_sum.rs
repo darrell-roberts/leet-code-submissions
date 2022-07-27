@@ -12,7 +12,7 @@ fn find_multiples(n: i32, target: i32) -> HashSet<MultiplesCandidate> {
   let mut multiple_candidates = HashSet::new();
 
   for multiple in 1.. {
-    let multiple_value = n * (multiple as i32);
+    let multiple_value = n * multiple;
 
     match multiple_value.cmp(&target) {
       Ordering::Greater => {
@@ -21,7 +21,7 @@ fn find_multiples(n: i32, target: i32) -> HashSet<MultiplesCandidate> {
       Ordering::Equal => {
         multiple_candidates.insert(MultiplesCandidate {
           val: n,
-          multiple,
+          multiple: multiple.try_into().unwrap(),
           multiple_value,
         });
         break;
@@ -29,7 +29,7 @@ fn find_multiples(n: i32, target: i32) -> HashSet<MultiplesCandidate> {
       Ordering::Less => {
         multiple_candidates.insert(MultiplesCandidate {
           val: n,
-          multiple,
+          multiple: multiple.try_into().unwrap(),
           multiple_value,
         });
       }
@@ -38,12 +38,14 @@ fn find_multiples(n: i32, target: i32) -> HashSet<MultiplesCandidate> {
   multiple_candidates
 }
 
+#[allow(unused)]
 fn multiple_to_array(multiple: &MultiplesCandidate) -> Vec<i32> {
   std::iter::repeat(multiple.val)
     .take(multiple.multiple as usize)
     .collect()
 }
 
+#[allow(unused)]
 pub fn combination_sum_old(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
   let mut result = HashSet::new();
 
