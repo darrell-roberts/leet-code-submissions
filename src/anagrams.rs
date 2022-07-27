@@ -16,9 +16,36 @@ pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
   anagram_map.into_values().collect()
 }
 
+#[allow(unused)]
+pub fn is_anagram(s: String, t: String) -> bool {
+  if s.len() != t.len() {
+    return false;
+  }
+  let mut char_count = HashMap::new();
+  for c in s.chars() {
+    match char_count.get_mut(&c) {
+      Some(val) => *val += 1,
+      None => {
+        char_count.insert(c, 1);
+      }
+    }
+  }
+
+  for c in t.chars() {
+    match char_count.get_mut(&c) {
+      Some(val) => *val -= 1,
+      None => return false,
+    }
+  }
+
+  char_count.values().all(|&val| val == 0)
+}
+
 #[cfg(test)]
 mod test {
   use crate::anagrams::group_anagrams;
+
+  use super::is_anagram;
 
   #[test]
   fn test_group() {
@@ -35,5 +62,10 @@ mod test {
     ]);
     result.sort();
     assert_eq!(expected, result);
+  }
+
+  #[test]
+  fn test_anagram() {
+    assert!(is_anagram("anagram".into(), "nagaram".into()))
   }
 }

@@ -49,6 +49,8 @@ pub use phone_combo::letter_combinations;
 pub use plus_one::add_binary;
 /// https://leetcode.com/problems/plus-one
 pub use plus_one::plus_one;
+/// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+pub use remove_dupes::delete_duplicates;
 /// https://leetcode.com/problems/reverse-integer
 pub use reverse_integer::reverse;
 /// https://leetcode.com/problems/integer-to-roman/
@@ -69,8 +71,6 @@ pub use two_sum::two_sum;
 pub use water_container::max_area;
 /// https://leetcode.com/problems/zigzag-conversion
 pub use zigzag_conversion::convert;
-/// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
-pub use remove_dupes::delete_duplicates;
 
 mod add_two_numbers;
 mod anagrams;
@@ -93,6 +93,7 @@ mod parentheses;
 mod permutations;
 mod phone_combo;
 mod plus_one;
+mod remove_dupes;
 mod reverse_integer;
 mod roman_numeral;
 mod rotate_image;
@@ -102,7 +103,6 @@ mod three_sum;
 mod two_sum;
 mod water_container;
 mod zigzag_conversion;
-mod remove_dupes;
 
 // Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -168,6 +168,10 @@ impl ListNode {
       *next_node = Some(node);
     }
   }
+
+  pub fn iter(&self) -> Iter<'_> {
+    Iter { node: Some(self) }
+  }
 }
 
 pub struct IntoIter {
@@ -195,6 +199,33 @@ impl IntoIterator for ListNode {
   }
 }
 
+pub struct Iter<'a> {
+  node: Option<&'a ListNode>,
+}
+
+impl<'a> Iterator for Iter<'a> {
+  type Item = &'a ListNode;
+  fn next(&mut self) -> Option<Self::Item> {
+    self.node.take().map(|v| {
+      self.node = v.next.as_ref().map(|v| v.as_ref());
+      v
+    })
+  }
+}
+
+// pub struct IterMut<'a> {
+//   node: Option<&'a mut ListNode>
+// }
+
+// impl<'a> Iterator for IterMut<'a> {
+//   type Item = &'a mut ListNode;
+//   fn next(&mut self) -> Option<Self::Item> {
+//     let current = self.node.take();
+//     self.node = current.and_then(|n| n.next.as_deref_mut());
+//     current
+//   }
+// }
+
 fn from_array(l: &[i32]) -> Option<Box<ListNode>> {
   let mut list_node: Option<Box<ListNode>> = None;
 
@@ -208,6 +239,7 @@ fn from_array(l: &[i32]) -> Option<Box<ListNode>> {
   list_node
 }
 
+#[allow(unused)]
 fn to_array(l: Option<Box<ListNode>>) -> Vec<i32> {
   let mut next = l;
   let mut digits = vec![];
@@ -243,6 +275,14 @@ mod test {
       n.push_ordered(test_add_1);
       n.push_ordered(test_add_2);
       dbg!(&n);
+    }
+  }
+
+  #[test]
+  fn test_iter() {
+    let test_node = from_array(&[1, 2, 3, 4, 5]);
+    for n in test_node.unwrap().iter() {
+      println!("node: {n:?}");
     }
   }
 }

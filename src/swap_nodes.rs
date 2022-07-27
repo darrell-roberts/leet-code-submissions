@@ -12,6 +12,7 @@ pub fn swap_pairs(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
   }
 }
 
+#[allow(unused)]
 pub fn swap_pairs_mine(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
   let mut dummy_head = Box::new(ListNode::new(0));
 

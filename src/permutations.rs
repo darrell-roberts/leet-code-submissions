@@ -10,6 +10,7 @@ https://en.wikipedia.org/wiki/Heap%27s_algorithm#Details_of_the_algorithm
  */
 
 /// My attempt.
+#[allow(unused)]
 pub fn permute_1(nums: Vec<i32>) -> Vec<Vec<i32>> {
   if nums.len() == 1 {
     return vec![nums];
@@ -60,6 +61,7 @@ pub fn permute(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
   result
 }
 
+#[allow(unused)]
 pub fn next_permutation(nums: &mut Vec<i32>) {
   let original = nums.clone();
   let mut result = BTreeSet::new();

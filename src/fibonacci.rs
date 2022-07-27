@@ -3,7 +3,7 @@ pub fn fib(n: i32) -> i32 {
     n1.checked_add(*n2).map(|n3| (*n2, n3))
   })
   .map(|(n, _)| n)
-  .nth(n as usize)
+  .nth(n.try_into().unwrap())
   .unwrap_or_default()
 }
 
