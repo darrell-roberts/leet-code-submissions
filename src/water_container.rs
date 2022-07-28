@@ -7,7 +7,8 @@ pub fn max_area(height: Vec<i32>) -> i32 {
     let width = right - left;
     let left_height = height[left];
     let right_height = height[right];
-    let current_area = left_height.min(right_height) * i32::try_from(width).unwrap();
+    let current_area =
+      left_height.min(right_height) * i32::try_from(width).unwrap();
     area = area.max(current_area);
     if left_height <= right_height {
       left += 1;
