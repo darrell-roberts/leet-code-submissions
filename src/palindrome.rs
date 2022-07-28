@@ -65,9 +65,24 @@ pub fn is_palindrome(x: i32) -> bool {
   true
 }
 
+pub mod phrase {
+  pub fn is_palindrome(s: String) -> bool {
+    let test_iter = s
+      .chars()
+      .filter(|c| c.is_alphanumeric())
+      .map(|c| c.to_lowercase());
+
+    test_iter
+      .clone()
+      .zip(test_iter.into_iter().rev())
+      .all(|(mut a, mut b)| a.next() == b.next())
+  }
+}
+
 #[cfg(test)]
 mod test {
-  use crate::palindrome::{is_palindrome, longest_palindrome};
+  use super::phrase::is_palindrome as is_palindrome_phrase;
+  use super::{is_palindrome, longest_palindrome};
 
   #[test]
   fn test_longest() {
@@ -85,5 +100,15 @@ mod test {
     assert!(!is_palindrome(-121));
     assert!(!is_palindrome(10));
     assert!(!is_palindrome(1000021));
+  }
+
+  #[test]
+  fn test_is_palindrome_phrase() {
+    assert!(is_palindrome_phrase(
+      "A man, a plan, a canal: Panama".into()
+    ));
+    assert!(!is_palindrome_phrase("race a car".into()));
+    assert!(is_palindrome_phrase(" ".into()));
+    assert!(!is_palindrome_phrase("0P".into()));
   }
 }

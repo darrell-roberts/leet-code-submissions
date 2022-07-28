@@ -23,6 +23,8 @@ pub use fibonacci::fib;
 /// https://leetcode.com/problems/longest-substring-without-repeating-characters/
 pub use longest_substring::length_of_longest_substring;
 pub use matrix::search_matrix;
+/// https://leetcode.com/problems/spiral-matrix
+pub use matrix::spiral_order;
 /// https://leetcode.com/problems/median-of-two-sorted-arrays/
 pub use median_arrays::find_median_sorted_arrays;
 /// https://leetcode.com/problems/merge-k-sorted-lists/
@@ -35,6 +37,8 @@ pub use missing_positive::first_missing_positive;
 pub use palindrome::is_palindrome;
 /// https://leetcode.com/problems/longest-palindromic-substring/
 pub use palindrome::longest_palindrome;
+/// https://leetcode.com/problems/valid-palindrome/
+pub use palindrome::phrase::is_palindrome as is_palindrome_phrase;
 /// https://leetcode.com/problems/valid-parentheses/
 pub use parentheses::is_valid;
 /// https://leetcode.com/problems/longest-valid-parentheses/
@@ -176,11 +180,6 @@ impl ListNode {
 
 pub struct IntoIter {
   inner: Option<Box<ListNode>>,
-}
-
-pub struct IterMut<'a> {
-  inner: Option<&'a mut Box<ListNode>>,
-  // phantom: PhantomData<&'a Box<ListNode>>,
 }
 
 impl Iterator for IntoIter {
