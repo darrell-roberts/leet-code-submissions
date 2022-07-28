@@ -23,7 +23,11 @@ pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
 
 #[allow(unused)]
 pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-  *nums = nums.iter().cloned().filter(|&n| n == val).collect::<Vec<i32>>();
+  *nums = nums
+    .iter()
+    .cloned()
+    .filter(|&n| n == val)
+    .collect::<Vec<i32>>();
   nums.len().try_into().unwrap()
 }
 
@@ -54,8 +58,8 @@ mod test {
 
   #[test]
   fn test_search_insert() {
-    assert_eq!(2, search_insert(vec![1,3,5,6], 5));
-    assert_eq!(1, search_insert(vec![1,3,5,6], 2));
-    assert_eq!(4, search_insert(vec![1,3,5,6], 7));
+    assert_eq!(2, search_insert(vec![1, 3, 5, 6], 5));
+    assert_eq!(1, search_insert(vec![1, 3, 5, 6], 2));
+    assert_eq!(4, search_insert(vec![1, 3, 5, 6], 7));
   }
 }
