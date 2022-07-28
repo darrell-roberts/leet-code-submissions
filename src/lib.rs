@@ -23,6 +23,8 @@ pub use fibonacci::fib;
 /// https://leetcode.com/problems/longest-substring-without-repeating-characters/
 pub use longest_substring::length_of_longest_substring;
 pub use matrix::search_matrix;
+/// https://leetcode.com/problems/spiral-matrix
+pub use matrix::spiral_order;
 /// https://leetcode.com/problems/median-of-two-sorted-arrays/
 pub use median_arrays::find_median_sorted_arrays;
 /// https://leetcode.com/problems/merge-k-sorted-lists/
@@ -35,6 +37,8 @@ pub use missing_positive::first_missing_positive;
 pub use palindrome::is_palindrome;
 /// https://leetcode.com/problems/longest-palindromic-substring/
 pub use palindrome::longest_palindrome;
+/// https://leetcode.com/problems/valid-palindrome/
+pub use palindrome::phrase::is_palindrome as is_palindrome_phrase;
 /// https://leetcode.com/problems/valid-parentheses/
 pub use parentheses::is_valid;
 /// https://leetcode.com/problems/longest-valid-parentheses/
@@ -57,6 +61,8 @@ pub use reverse_integer::reverse;
 pub use roman_numeral::int_to_roman;
 /// https://leetcode.com/problems/rotate-image
 pub use rotate_image::rotate;
+/// https://leetcode.com/problems/single-number/
+pub use single_number::single_number;
 /// https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 pub use sorted_array::search_range;
 /// https://leetcode.com/problems/remove-nth-node-from-end-of-list
@@ -97,6 +103,7 @@ mod remove_dupes;
 mod reverse_integer;
 mod roman_numeral;
 mod rotate_image;
+mod single_number;
 mod sorted_array;
 mod swap_nodes;
 mod three_sum;
@@ -176,11 +183,6 @@ impl ListNode {
 
 pub struct IntoIter {
   inner: Option<Box<ListNode>>,
-}
-
-pub struct IterMut<'a> {
-  inner: Option<&'a mut Box<ListNode>>,
-  // phantom: PhantomData<&'a Box<ListNode>>,
 }
 
 impl Iterator for IntoIter {

@@ -130,7 +130,7 @@ fn find_numbers(
 
 #[cfg(test)]
 mod test {
-  use crate::combination_sum::{combination_sum};
+  use crate::combination_sum::combination_sum;
 
   #[test]
   fn test_sum() {
