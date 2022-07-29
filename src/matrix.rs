@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 pub fn search_matrix(matrix: Vec<Vec<i32>>, target: i32) -> bool {
   for n in matrix.iter().flatten() {
     if &target == n {
@@ -35,7 +37,7 @@ fn consume_matrix(matrix: Vec<Vec<i32>>, result: &mut Vec<i32>) {
         Direction::Right => {
           result.append(&mut row);
           direction = Direction::Down;
-        },
+        }
         Direction::Down => {
           if row_index < height {
             if let Some(val) = row.pop() {
@@ -63,9 +65,78 @@ pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
   result
 }
 
+#[allow(unused)]
+pub fn kth_smallest_orig(mut matrix: Vec<Vec<i32>>, k: i32) -> i32 {
+  let mut count = 0;
+  let mut result = 0;
+  while count < k {
+    let mut lowest_row: Option<usize> = None;
+    let mut lowest: Option<&i32> = None;
+    for (row_index, row) in matrix.iter().enumerate() {
+      (lowest_row, lowest) = match (row.get(0), lowest) {
+        (Some(h), Some(l)) if h > l => (lowest_row, Some(l)),
+        (Some(h), Some(l)) if h < l => (Some(row_index), Some(h)),
+        (Some(h), None) => (Some(row_index), Some(h)),
+        (None, Some(l)) => (Some(row_index), Some(l)),
+        _ => continue,
+      };
+    }
+
+    if let Some(&l) = lowest {
+      result = l;
+    }
+    if let Some(row) = lowest_row {
+      matrix.get_mut(row).unwrap().remove(0);
+    }
+
+    count += 1;
+  }
+  result
+}
+
+#[allow(unused)]
+pub fn kth_smallest_alt(matrix: Vec<Vec<i32>>, k: i32) -> i32 {
+  let mut sorted_matrix = matrix
+    .into_iter()
+    .flat_map(|row| row.into_iter())
+    .collect::<Vec<_>>();
+  sorted_matrix.sort_unstable();
+  *sorted_matrix.get((k - 1) as usize).unwrap()
+}
+
+pub fn kth_smallest(matrix: Vec<Vec<i32>>, k: i32) -> i32 {
+  let mut lists = matrix.into_iter().map(VecDeque::from).collect::<Vec<_>>();
+
+  let mut count = 0;
+  let mut result = 0;
+  while count < k {
+    let mut lowest_row: Option<usize> = None;
+    let mut lowest: Option<&i32> = None;
+    for (row_index, row) in lists.iter().enumerate() {
+      (lowest_row, lowest) = match (row.get(0), lowest) {
+        (Some(h), Some(l)) if h > l => (lowest_row, Some(l)),
+        (Some(h), Some(l)) if h < l => (Some(row_index), Some(h)),
+        (Some(h), None) => (Some(row_index), Some(h)),
+        (None, Some(l)) => (Some(row_index), Some(l)),
+        _ => continue,
+      };
+    }
+
+    if let Some(&l) = lowest {
+      result = l;
+    }
+    if let Some(row) = lowest_row {
+      lists.get_mut(row).unwrap().pop_front();
+    }
+
+    count += 1;
+  }
+  result
+}
+
 #[cfg(test)]
 mod test {
-  use super::{search_matrix, spiral_order};
+  use super::{kth_smallest, kth_smallest_alt, search_matrix, spiral_order};
 
   #[test]
   fn test_matrix() {
@@ -105,5 +176,19 @@ mod test {
         vec![13, 14, 15, 16]
       ])
     );
+  }
+
+  #[test]
+  fn test_kth_smallest() {
+    let test = vec![vec![1, 5, 9], vec![10, 11, 13], vec![12, 13, 15]];
+    assert_eq!(13, kth_smallest(test, 8));
+    assert_eq!(-5, kth_smallest(vec![vec![-5]], 1))
+  }
+
+  #[test]
+  fn test_kth_smallest_alt() {
+    let test = vec![vec![1, 5, 9], vec![10, 11, 13], vec![12, 13, 15]];
+    assert_eq!(13, kth_smallest_alt(test, 8));
+    assert_eq!(-5, kth_smallest_alt(vec![vec![-5]], 1))
   }
 }

@@ -5,10 +5,9 @@ pub fn longest_common_prefix(strs: Vec<String>) -> String {
 
   for index in 0.. {
     let str_char_i = strs
-            .iter()
-            // .filter_map(|s| s.chars().nth(index))
-            .filter_map(|s| s.as_bytes().get(index))
-            .collect::<Vec<_>>();
+      .iter()
+      .filter_map(|s| s.as_bytes().get(index))
+      .collect::<Vec<_>>();
 
     match str_char_i.get(0) {
       Some(&&first) => {
@@ -31,16 +30,14 @@ pub fn longest_common_prefix_2(strs: Vec<String>) -> String {
   let mut freq_map: BTreeMap<usize, (char, usize)> = BTreeMap::new();
 
   for (i, c) in strs.iter().flat_map(|s| s.char_indices()) {
-    match freq_map.get_mut(&i) {
-      Some((prev_char, count)) => {
+    freq_map
+      .entry(i)
+      .and_modify(|(prev_char, count)| {
         if *prev_char == c {
           *count += 1;
         }
-      }
-      None => {
-        freq_map.insert(i, (c, 1));
-      }
-    }
+      })
+      .or_insert((c, 1));
   }
 
   freq_map

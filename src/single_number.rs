@@ -4,11 +4,7 @@ use std::collections::HashMap;
 pub fn single_number_mine(nums: Vec<i32>) -> i32 {
   let mut counts = HashMap::with_capacity(nums.len());
   for n in nums {
-    if let Some(val) = counts.get_mut(&n) {
-      *val += 1;
-    } else {
-      counts.insert(n, 1);
-    }
+    *counts.entry(n).or_insert(0) += 1;
   }
 
   counts

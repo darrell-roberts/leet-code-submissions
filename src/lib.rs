@@ -16,17 +16,23 @@ pub use common_prefix::longest_common_prefix;
 pub use course_schedule::find_order;
 /// https://leetcode.com/problems/course-schedule-ii
 pub use course_schedule_dag::find_order_dag;
+/// https://leetcode.com/problems/divide-two-integers/
+pub use division::divide;
 /// https://leetcode.com/problems/excel-sheet-column-title/
 pub use excel_sheet::convert_to_title;
 /// https://leetcode.com/problems/fibonacci-number/
 pub use fibonacci::fib;
 /// https://leetcode.com/problems/longest-substring-without-repeating-characters/
 pub use longest_substring::length_of_longest_substring;
+/// https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
+pub use matrix::kth_smallest;
 pub use matrix::search_matrix;
 /// https://leetcode.com/problems/spiral-matrix
 pub use matrix::spiral_order;
 /// https://leetcode.com/problems/median-of-two-sorted-arrays/
 pub use median_arrays::find_median_sorted_arrays;
+/// https://leetcode.com/problems/merge-intervals/
+pub use merge_lists::intervals::merge as merge_intervals;
 /// https://leetcode.com/problems/merge-k-sorted-lists/
 pub use merge_lists::merge_k_lists;
 /// https://leetcode.com/problems/merge-two-sorted-lists/
@@ -59,18 +65,24 @@ pub use remove_dupes::delete_duplicates;
 pub use reverse_integer::reverse;
 /// https://leetcode.com/problems/integer-to-roman/
 pub use roman_numeral::int_to_roman;
+/// https://leetcode.com/problems/roman-to-integer/
+pub use roman_numeral::roman_to_int;
 /// https://leetcode.com/problems/rotate-image
 pub use rotate_image::rotate;
 /// https://leetcode.com/problems/single-number/
 pub use single_number::single_number;
 /// https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 pub use sorted_array::search_range;
+/// https://leetcode.com/problems/valid-sudoku/
+pub use sudoku::is_valid_sudoku;
 /// https://leetcode.com/problems/remove-nth-node-from-end-of-list
 pub use swap_nodes::remove_nth_from_end;
 /// https://leetcode.com/problems/swap-nodes-in-pairs
 pub use swap_nodes::swap_pairs;
 /// https://leetcode.com/problems/3sum
 pub use three_sum::three_sum;
+/// https://leetcode.com/problems/3sum-closest/
+pub use three_sum::three_sum_closest;
 /// https://leetcode.com/problems/two-sum/
 pub use two_sum::two_sum;
 /// https://leetcode.com/problems/container-with-most-water
@@ -87,6 +99,7 @@ mod combination_sum;
 mod common_prefix;
 mod course_schedule;
 mod course_schedule_dag;
+mod division;
 mod excel_sheet;
 mod fibonacci;
 mod longest_substring;
@@ -105,6 +118,7 @@ mod roman_numeral;
 mod rotate_image;
 mod single_number;
 mod sorted_array;
+mod sudoku;
 mod swap_nodes;
 mod three_sum;
 mod two_sum;
@@ -195,16 +209,6 @@ impl Iterator for IntoIter {
   }
 }
 
-// impl<'a> Iterator for IterMut<'a> {
-//   type Item = &'a mut Box<ListNode>;
-
-//   fn next(&mut self) -> Option<Self::Item> {
-//     let current = self.inner.take();
-//     self.inner = current.and_then(|n| n.next.as_mut());
-//     current
-//   }
-// }
-
 impl IntoIterator for ListNode {
   type Item = Box<ListNode>;
   type IntoIter = IntoIter;
@@ -229,19 +233,6 @@ impl<'a> Iterator for Iter<'a> {
     })
   }
 }
-
-// pub struct IterMut<'a> {
-//   node: Option<&'a mut ListNode>
-// }
-
-// impl<'a> Iterator for IterMut<'a> {
-//   type Item = &'a mut ListNode;
-//   fn next(&mut self) -> Option<Self::Item> {
-//     let current = self.node.take();
-//     self.node = current.and_then(|n| n.next.as_deref_mut());
-//     current
-//   }
-// }
 
 fn from_array(l: &[i32]) -> Option<Box<ListNode>> {
   let mut list_node: Option<Box<ListNode>> = None;
