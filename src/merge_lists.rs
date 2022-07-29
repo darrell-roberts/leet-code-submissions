@@ -58,7 +58,7 @@ pub fn merge_two_lists(
   }
 }
 
-#[allow(unused)]
+#[allow(unused, clippy::ptr_arg)]
 pub fn merge(nums1: &mut Vec<i32>, _m: i32, nums2: &mut Vec<i32>, _n: i32) {
   let mut nums2_iter = nums2.iter().cloned();
   for n in nums1.iter_mut() {

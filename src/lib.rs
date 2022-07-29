@@ -61,6 +61,8 @@ pub use reverse_integer::reverse;
 pub use roman_numeral::int_to_roman;
 /// https://leetcode.com/problems/rotate-image
 pub use rotate_image::rotate;
+/// https://leetcode.com/problems/single-number/
+pub use single_number::single_number;
 /// https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 pub use sorted_array::search_range;
 /// https://leetcode.com/problems/remove-nth-node-from-end-of-list
@@ -101,6 +103,7 @@ mod remove_dupes;
 mod reverse_integer;
 mod roman_numeral;
 mod rotate_image;
+mod single_number;
 mod sorted_array;
 mod swap_nodes;
 mod three_sum;
